@@ -3,13 +3,18 @@
 import base64
 import json
 
-from flask import Flask
+from flask import Flask, jsonify
 import requests
 
 from config import API_URL, APP_ID, APP_TOKEN
 
 
 app = Flask(__name__)
+
+FIELDS = ['id', 'name', 'active', 'brand_id', 'description_long',
+          'description_short', 'variants', 'inactive_variants',
+          'min_price', 'max_price', 'sale', 'default_image',
+          'attributes_merged', 'tags', 'merchant_id']
 
 
 def get_auth_token():
@@ -26,8 +31,8 @@ def shop_api(command, data):
 
 @app.route("/<int:product_id>")
 def index(product_id):
-    r = shop_api("products", {"ids": [product_id], "fields": []})
-    return r.content
+    r = shop_api("products", {"ids": [product_id], "fields": FIELDS})
+    return jsonify(**r.json()[0])
 
 
 if __name__ == "__main__":
