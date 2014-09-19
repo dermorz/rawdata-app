@@ -1,68 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Rawdata APP</title>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Rawdata APP</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
-        <style type="text/css">
-            body {
-                padding: 20px;
-            }
+		<style type="text/css">
+			body {
+				padding: 20px;
+			}
 
-            body > div {
-                margin: 0 auto;
-            }
-        </style>
-    </head>
+			body > div {
+				margin: 0 auto;
+			}
+		</style>
+	</head>
 
-    <body>
-        {% if "id" in product %}
-            <div class="panel panel-default" style="width: 800px;">
-                <div class="panel-heading"><a href="http://www.aboutyou.de/a-{{ product.id }}" target="_blank"><h4>{{ product.id }} - {{ product.name }}</h4></a></div>
-                <div class="panel-body">
-                    <p>
-                        <img src="http://cdn.mary-paul.de/file/{{ product.default_image.hash }}" class="img-thumbnail" style="width: 140px;">
-                    </p>
-                    <table class="table table-striped table-bordered">
-                        {% for key, value in product|dictsort %}
-                            {% if key not in ["variants", "inactive_variants", "styles", "default_image"] %}
-                                <tr>
-                                    <td style="width: 130px;"><strong>{{ key }}</strong></td>
-                                    <td>{{ value.values() if key == "attributes" else value }}</td>
-                                </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-            {% for v in product.variants %}
-                <div class="panel panel-default" style="width: 800px;">
-                    <div class="panel-heading"><h4>{{ v.id }}</h4></div>
-                    <div class="panel-body">
-                        <p>
-                            {% for i in v.images %}
-                                <img src="http://cdn.mary-paul.de/file/{{ i.hash }}" class="img-thumbnail" style="width: 140px;">
-                            {% endfor %}
-                        </p>
-                        <table class="table table-striped table-bordered">
-                            {% for key, value in v|dictsort %}
-                                {% if key not in ["images"] %}
-                                    <tr>
-                                        <td style="width: 130px;"><strong>{{ key }}</strong></td>
-                                        <td>{{ value.values() if key == "attributes" else value }}</td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                        </table>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <h2>No product found</h2>
-        {% endif %}
-    </body>
+	<body>
+		{% if "id" in product %}
+			<div class="panel panel-default" style="width: 800px;">
+				<div class="panel-heading"><a href="http://www.aboutyou.de/a-{{ product.id }}" target="_blank"><h4>{{ product.id }} - {{ product.name }}</h4></a></div>
+				<div class="panel-body">
+					<p>
+						<img src="http://cdn.mary-paul.de/file/{{ product.default_image.hash }}" class="img-thumbnail" style="width: 140px;">
+					</p>
+					<table class="table table-striped table-bordered">
+						{% for key, value in product|dictsort %}
+							{% if key not in ["variants", "inactive_variants", "styles", "default_image"] %}
+								<tr>
+									<td style="width: 130px;"><strong>{{ key }}</strong></td>
+									<td>{{ value.values() if key == "attributes" else value }}</td>
+								</tr>
+							{% endif %}
+						{% endfor %}
+					</table>
+				</div>
+			</div>
+
+			{% for v in product.variants %}
+				<div class="panel panel-default" style="width: 800px;">
+					<div class="panel-heading"><h4>{{ v.id }}</h4></div>
+					<div class="panel-body">
+						<p>
+							{% for i in v.images %}
+								<img src="http://cdn.mary-paul.de/file/{{ i.hash }}" class="img-thumbnail" style="width: 140px;">
+							{% endfor %}
+						</p>
+						<table class="table table-striped table-bordered">
+							{% for key, value in v|dictsort %}
+								{% if key not in ["images"] %}
+									<tr>
+										<td style="width: 130px;"><strong>{{ key }}</strong></td>
+										<td>{{ value.values() if key == "attributes" else value }}</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<h2>No product found</h2>
+		{% endif %}
+	</body>
 </html>
